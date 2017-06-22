@@ -12,6 +12,27 @@ def unwrap_and_load(content):
     cleaned = clean_json(unwrapper.unwrap_raw(content))
     return loads(cleaned)
 
+def loads_js(raw_js):
+    """
+    Function to parse json objects inside JS script tags of html sources.
+
+    For example:
+    <script>
+     var x = { "a": { "b": 5,
+                      "c": 7
+                    }
+                "d": 4
+             };
+     var y = {
+               "a": { "b": 5,
+                      "c": 7
+                    }
+               "d": 4
+     }
+    </script>
+    would return a list of json.load'ed dictionaries
+    """
+    return [unwrap(js_var + '}') for js_var in filter(bool, raw_js.strip().split('};'))]
 
 def loads(content, try_yaml=False):
     try:
