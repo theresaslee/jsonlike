@@ -20,3 +20,6 @@ def test_loads_w_html():
 
 def test_loads_w_html2():
     loads('{"a":1, "b": 2, "c": "<font class="stupid_font">hey</font>"}').should.equal(json.loads('{"a":1, "b": 2, "c": "hey"}'))
+    
+def test_loads_js():
+    loads_js('var x = { "a": { "b": 5,"c": 7},"d": 4}; var y = { "z": 1};').should.equal([{u'a': {u'c': 7, u'b': 5}, u'd': 4}, {u'z': 1}])
